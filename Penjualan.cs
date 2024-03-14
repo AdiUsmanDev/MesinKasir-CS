@@ -104,7 +104,8 @@ namespace WindowsFormsApp1_mdi
 
             pictureBox1.Image = resizedBitmap;
         }
-
+ 
+      //tidak di gunakan , digunakan pada saat debug program
         private void Parsing(string s)
         {
             ListViewItem newItem = new ListViewItem(s); 
@@ -116,7 +117,7 @@ namespace WindowsFormsApp1_mdi
 
         private void Parsingquery(string s)
         {
-            string connectionString = "server=localhost;userid=root;password=root;database=mesin_kasir";
+            string connectionString = "server=localhost;userid=r{sesuaikan};password={sesuaikan};database={sesuaikan}";
 
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
