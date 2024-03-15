@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -104,8 +104,7 @@ namespace WindowsFormsApp1_mdi
 
             pictureBox1.Image = resizedBitmap;
         }
- 
-      //tidak di gunakan , digunakan pada saat debug program
+
         private void Parsing(string s)
         {
             ListViewItem newItem = new ListViewItem(s); 
@@ -117,7 +116,7 @@ namespace WindowsFormsApp1_mdi
 
         private void Parsingquery(string s)
         {
-            string connectionString = "server=localhost;userid=r{sesuaikan};password={sesuaikan};database={sesuaikan}";
+            string connectionString = "server=localhost;userid=root;password=root;database=mesin_kasir";
 
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
@@ -184,6 +183,11 @@ namespace WindowsFormsApp1_mdi
         {
             int total = int.Parse(textBox_total.Text);
             int bayar = int.Parse(textBox_uang.Text);
+
+            if (total > bayar)
+            {
+                MessageBox.Show("Jumlah Uang Cash Kurang Dari total Belanja");
+            }
 
             int kembalian = bayar - total;
 
