@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -63,13 +63,79 @@ namespace WindowsFormsApp1_mdi
 
         }
 
+        string[] value = new string[] {""};
+
         private void listView1_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
             if (e.IsSelected)
             {
-                string selectedValue = e.Item.Text; // Mendapatkan nilai teks dari item yang dipilih
-                MessageBox.Show("Selected Value: " + selectedValue);
+                string selectedValue = e.Item.Text;
+                value[0] = selectedValue;
+                
+
             }
         }
+
+
+        private void hps(object sender, EventArgs e)
+        {
+            string connectionString = "server=localhost;userid=root;password=root;database=mesin_kasir";
+
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    string query = "DELETE FROM list_barang where code_barang=@code";
+                    var prams = new { code = value[0]};
+                    var selectedData = connection.Execute(query, prams);
+
+                    reload();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Eror: " + ex.Message);
+                }
+
+            }
+        }
+
+        private void reload()
+        {
+
+            string connectionString = "server=localhost;userid=root;password=root;database=mesin_kasir";
+
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    string query = "SELECT * FROM list_barang where code_barang";
+                    var selectedData = connection.Query(query);
+
+                    listView1.Items.Clear();
+
+                    foreach (var data in selectedData)
+                    {
+
+                        ListViewItem newItem = new ListViewItem(data.code_barang);
+                        newItem.SubItems.Add(data.nama_barang);
+                        newItem.SubItems.Add(data.harga);
+
+                        listView1.Items.Add(newItem);
+                    }
+
+                    connection.Close();
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error: " + ex.Message);
+                }
+            }
+
+
+        }
+
     }
-}
+        }
